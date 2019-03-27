@@ -2,28 +2,31 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './homestyle.css';
 import Toggle from './toggle.js';
+import {BrowserRouter as Router, Link,NavLink,Redirect} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             posts: [],
-            isToggleOn: "My Post"
+            isToggleOn: "My Post",
+            postid: ""
         };
     }
 
     componentDidMount() {
         
 
-            if(this.state.isToggleOn=="My Post"){
-                axios.get("https://jsonplaceholder.typicode.com/posts?userId=3")
+            
+                axios.get("https://jsonplaceholder.typicode.com/posts")
 
             .then(response => {
                 const posts = response.data;
                 console.log(posts);
                 this.setState({ posts });
             })
-            }
+            
             
     }
     toggle=()=>{
@@ -49,6 +52,12 @@ class Home extends Component {
             }
 
     }
+
+    comment=(id)=>{
+        this.setState({postid: id });
+        
+    }
+
     render() {
         
         return (
@@ -58,10 +67,11 @@ class Home extends Component {
                 </div>
                 <div>
                 {this.state.posts.map(post=>
-                    
-                    <Jobcard key={post.id} title={post.title} body={post.body}/>
-                    
-                    
+                    <Link to={'/Comment/'+post.id}>
+                    <div key={post.id} onClick={()=>this.comment(post.id)}>
+                    <Jobcard title={post.title} body={post.body}/>
+                    </div>
+                    </Link>
                     )       
                 }
                 </div>
@@ -69,6 +79,8 @@ class Home extends Component {
         );
     }
 }
+
+export default Home;
 
 class Jobcard extends Component {
     constructor(props) {
@@ -88,8 +100,3 @@ class Jobcard extends Component {
         )
     }
 }
-
-
-
-
-export default Home;

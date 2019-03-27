@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Home from './Home.js';
-//import Profile from './Profile.js';
+import Comment from './comment.js';
+
 import ReactDOM from 'react-dom';
-//import Add from './Add.js';
+
 import {BrowserRouter as Router, Link,NavLink,Redirect} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 
@@ -14,7 +15,7 @@ class App extends Component {
               <div className="App">                
                  
                   <Route path = "/" exact component = {Home} />        
-                  
+                  <Route path = "/Comment/:id" exact component = {Comment} /> 
               </div>
             </Router>
         );
